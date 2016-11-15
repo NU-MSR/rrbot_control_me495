@@ -29,9 +29,9 @@ namespace gazebo
 		// dict with names and desired angles:
 		std::map<std::string, double> refAngles;
 		// Queue for processing messages
-        ros::CallbackQueue subQueue;
+		ros::CallbackQueue subQueue;
 		// thread for queue
-        std::thread subQueueThread;		
+		std::thread subQueueThread;
 
 
 	public: void Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/)
@@ -63,7 +63,7 @@ namespace gazebo
 				// fill out dict of joint names:
 				refAngles["joint1"] = this->model->GetJoint("joint1")->GetAngle(0).Radian();
 				refAngles["joint2"] = this->model->GetJoint("joint2")->GetAngle(0).Radian();
-				
+
 				// now create a thread for running spin operation:
 				this->subQueueThread = std::thread(std::bind(&RRBotPosControl::QueueThread, this));
 
@@ -71,7 +71,7 @@ namespace gazebo
 			}
 
 
-    public:
+	public:
 		// callback for received message:
 		void jointConfigCB(const rrbot_control_me495::RRBotConfigConstPtr &msg)
 			{
@@ -79,31 +79,30 @@ namespace gazebo
 				this->refAngles["joint2"] = msg->j2;
 				return;
 			}
-		
-		
+
+
 		// Called by the world update start event
 		void OnUpdate(const common::UpdateInfo & /*_info*/)
-
 			{
 				this->model->GetJoint("joint1")->SetAngle(0, math::Angle(refAngles["joint1"]));
 				this->model->GetJoint("joint2")->SetAngle(0, math::Angle(refAngles["joint2"]));
 				this->model->GetJoint("joint1")->SetVelocity(0, 0);
 				this->model->GetJoint("joint2")->SetVelocity(0, 0);
-                this->model->GetJoint("joint1")->SetForce(0, 0);
-                this->model->GetJoint("joint2")->SetForce(0, 0);
+				this->model->GetJoint("joint1")->SetForce(0, 0);
+				this->model->GetJoint("joint2")->SetForce(0, 0);
 				return;
 			}
 
 	private:
 		// Our own simple version of a spin function:
 		void QueueThread()
-        {
-            static const double timeout = 0.01;
-            while (this->n_->ok())
-            {
-                this->subQueue.callAvailable(ros::WallDuration(timeout));
-            }
-        }
+		{
+			static const double timeout = 0.01;
+			while (this->n_->ok())
+			{
+				this->subQueue.callAvailable(ros::WallDuration(timeout));
+			}
+		}
 	};
 
 	// Register this plugin with the simulator
