@@ -1,6 +1,7 @@
 ## Homework 3: Gazebo and ROS Control
-### ME 495: Embedded Systems in Robotics
-### _your name here_
+#### ME 495: Embedded Systems in Robotics
+#### _your name here_
+
 
 ## Introduction
 
