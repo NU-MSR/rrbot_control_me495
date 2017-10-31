@@ -52,3 +52,4 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${GAZEBO_CXX_FLAGS} -std=c++11")
 
 add_library(rrbot_custom src/rrbot_custom_plugin.cpp)
 target_link_libraries(rrbot_custom ${Boost_LIBRARIES} ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+add_dependencies(rrbot_custom ${PROJECT_NAME}_generate_messages_cpp)
