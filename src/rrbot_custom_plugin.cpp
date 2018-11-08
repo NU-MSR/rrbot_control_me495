@@ -63,8 +63,8 @@ namespace gazebo
 				sub = this->n_->subscribe(so);
 
 				// fill out dict of joint names:
-				refAngles["joint1"] = this->model->GetJoint("joint1")->GetAngle(0).Radian();
-				refAngles["joint2"] = this->model->GetJoint("joint2")->GetAngle(0).Radian();
+				refAngles["joint1"] = this->model->GetJoint("joint1")->Position(0);
+				refAngles["joint2"] = this->model->GetJoint("joint2")->Position(0);
 
 				// now create a thread for running spin operation:
 				this->subQueueThread = std::thread(std::bind(&RRBotPosControl::QueueThread, this));
